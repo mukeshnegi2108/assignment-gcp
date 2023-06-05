@@ -1,23 +1,25 @@
+
+@Library('my-shared-library') _
+
 pipeline {
     agent any
+
+    parameters {
+        string(name: 'IMAGE_NAME', defaultValue: '', description: 'Name of the Docker image')
+        string(name: 'GCR_REGISTRY', defaultValue: '', description: 'GCR registry URL')
+        string(name: 'DOCKERFILE_PATH', defaultValue: '/dockerfiles', description: 'Path to the Dockerfile')
+        string(name: 'PROJECT_ID', defaultValue: 'elliptical-rite-387113', description: 'Google Cloud project ID')
+    }
 
     stages {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Specify the path to your Dockerfile
-                    def dockerfilePath = '../docker/Dockerfile'
-                    
-                    // Specify the name for your Docker image
-                    def imageName = 'my-docker-image'
-                    
-                    // Specify the GCR registry URL for your project
-                    def gcrRegistry = 'gcr.io/my-project'
-
-                    // Call the shared library function to build and push the Docker image
-                    buildAndPushDockerImage(dockerfilePath, imageName, gcrRegistry)
+                    // Build and push Docker image using shared library function
+                    buildDockerImage(dockerfilePath: params.DOCKERFILE_PATH, imageName: params.IMAGE_NAME, gcrRegistry: params.GCR_REGISTRY)
                 }
             }
         }
     }
 }
+
