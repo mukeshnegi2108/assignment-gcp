@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    // Specify the path to your Dockerfile
+                    def dockerfilePath = '../docker/Dockerfile'
+                    
+                    // Specify the name for your Docker image
+                    def imageName = 'my-docker-image'
+                    
+                    // Specify the GCR registry URL for your project
+                    def gcrRegistry = 'gcr.io/my-project'
+
+                    // Call the shared library function to build and push the Docker image
+                    buildAndPushDockerImage(dockerfilePath, imageName, gcrRegistry)
+                }
+            }
+        }
+    }
+}

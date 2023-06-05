@@ -1,0 +1,9 @@
+controller:
+  componentName: jenkins-controller
+  serviceType: LoadBalancer
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: true
